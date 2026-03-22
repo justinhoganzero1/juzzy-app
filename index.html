@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juzzy</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <div class="brand-title">Juzzy</div>
+            <div class="brand-subtitle">Live crypto intelligence</div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <input id="email" class="input input-compact" placeholder="Email" autocomplete="email" />
+          <button id="simpleModeBtn" class="btn">Simple Mode</button>
+          <div class="heartbeat">
+            <div class="hb-dot" aria-hidden="true"></div>
+            <div class="hb-text"><span id="hbMs">444</span>ms</div>
+          </div>
+          <div class="pill">Status: <span id="statusText">Idle</span></div>
+          <button id="connectBtn" class="btn">Connect wallet</button>
+          <button id="subscribeBtn" class="btn primary">Subscribe</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <nav class="tabs" aria-label="Primary">
+          <button class="tab active" data-tab="oracle">Oracle</button>
+          <button class="tab" data-tab="leaders">Leaders</button>
+          <button class="tab" data-tab="charts">Charts</button>
+          <button class="tab" data-tab="brain">Brain</button>
+          <button class="tab" data-tab="reports">Reports</button>
+          <button class="tab" data-tab="ops">Ops</button>
+          <button class="tab" data-tab="vault">Vault</button>
+          <button class="tab" data-tab="tutorial">Tutorial</button>
+        </nav>
+
+        <section class="panel active" id="tab-oracle" role="region" aria-label="Oracle">
+          <div class="panel-header">
+            <div>
+              <div class="h1">The Oracle</div>
+              <div class="muted">One action to start a monitored cycle. No profit guarantees.</div>
+            </div>
+            <div class="kpis">
+              <div class="kpi">
+                <div class="kpi-label">Today P/L</div>
+                <div id="kpiPnl" class="kpi-value">$0.00</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Service Fees</div>
+                <div id="kpiFees" class="kpi-value">$0.00</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Paper Banked</div>
+                <div id="kpiBanked" class="kpi-value">$0.00</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Paper P/L</div>
+                <div id="kpiPaperPnl" class="kpi-value">$0.00</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="oracle-grid">
+            <div class="card">
+              <div class="card-title">One Invest (24h Autopilot)</div>
+              <div class="slider-row">
+                <input id="fuel" type="range" min="10" max="10000" value="250" step="10" />
+                <div class="fuel-value">$<span id="fuelValue">250</span></div>
+              </div>
+              <div class="muted small">We split your amount into <strong>24</strong> equal slices (hourly) for 24 hours.</div>
+              <div class="muted small">Upfront service fee: <strong>1%</strong> of your total (paid before Autopilot starts).</div>
+
+              <div class="gate">
+                <label class="gate-row"><input id="gateSub" type="checkbox" disabled /> Subscription is active.</label>
+                <label class="gate-row"><input id="gateUpfront" type="checkbox" disabled /> Upfront 1% fee is paid.</label>
+                <label class="gate-row"><input id="gateRisk" type="checkbox" /> I understand I can lose money.</label>
+                <label class="gate-row"><input id="gateFee" type="checkbox" /> I agree to the 1% service fee.</label>
+                <label class="gate-row"><input id="gateTime" type="checkbox" /> I allow the system to run for 24 hours.</label>
+              </div>
+
+              <div class="oracle-actions">
+                <button id="oneInvest" class="orb" aria-label="One invest">
+                  <div class="orb-core"></div>
+                  <div class="orb-text">
+                    <div class="orb-title">One</div>
+                    <div class="orb-sub">Invest</div>
+                  </div>
+                </button>
+                <div class="oneinvest-meta">
+                  <div class="muted small">Autopilot status</div>
+                  <div id="autoStatus" class="auto-status">Off</div>
+                  <div class="muted small">Next slice</div>
+                  <div id="autoNext" class="auto-next">—</div>
+                  <div class="auto-actions">
+                    <button id="stopAuto" class="btn" disabled>Stop</button>
+                    <button id="payTradeFee" class="btn">Pay upfront 1% fee (Stripe)</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="simpleBar" class="simple-bar" hidden>
+                <button id="simpleSubscribe" class="btn primary">1) Subscribe</button>
+                <button id="simplePay" class="btn">2) Pay 1% Fee</button>
+                <button id="simpleStart" class="btn primary">3) One Invest</button>
+                <button id="simpleStop" class="btn">Stop</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Cycle</div>
+              <div class="cycle">
+                <div class="cycle-ring" aria-hidden="true">
+                  <div class="cycle-ring-fill" id="cycleFill"></div>
+                </div>
+                <div class="cycle-meta">
+                  <div class="muted">Time remaining</div>
+                  <div class="cycle-time" id="cycleTime">—</div>
+                  <div class="muted small">You can stop at any time. This is a UI demo scaffold.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-charts" role="region" aria-label="Charts">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Charts</div>
+              <div class="muted">Candles + indicators. Select an asset and timeframe.</div>
+            </div>
+            <div class="charts-controls">
+              <div class="segmented" role="tablist" aria-label="Chart asset filter">
+                <button id="chartFilterAll" class="seg-btn active" type="button">All</button>
+                <button id="chartFilterGains" class="seg-btn" type="button">Gains</button>
+                <button id="chartFilterFalls" class="seg-btn" type="button">Falls</button>
+                <button id="chartFilterBirths" class="seg-btn" type="button">Births</button>
+                <button id="chartFilterSandbox" class="seg-btn" type="button">Sandbox</button>
+              </div>
+              <input id="chartSearch" class="input input-compact" placeholder="Search assets" />
+              <select id="chartAsset" class="select">
+                <option value="bitcoin">Bitcoin (BTC)</option>
+                <option value="ethereum">Ethereum (ETH)</option>
+                <option value="solana">Solana (SOL)</option>
+                <option value="ripple">XRP</option>
+                <option value="cardano">Cardano (ADA)</option>
+              </select>
+              <select id="chartTf" class="select">
+                <option value="1m">1m</option>
+                <option value="1">1D</option>
+                <option value="7">7D</option>
+                <option value="30" selected>30D</option>
+                <option value="90">90D</option>
+                <option value="365">1Y</option>
+              </select>
+              <button id="chartAddLine" class="btn">Add line</button>
+              <button id="chartClearLines" class="btn">Clear lines</button>
+              <button id="chartRefresh" class="btn">Refresh</button>
+            </div>
+          </div>
+
+          <div class="charts-grid">
+            <div class="card">
+              <div class="card-title">Price</div>
+              <div id="chart" class="chart"></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Stats</div>
+              <div class="stats">
+                <div class="stat"><div class="muted small">Asset</div><div id="chartStatAsset" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Last</div><div id="chartStatLast" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Change</div><div id="chartStatChg" class="stat-val">—</div></div>
+              </div>
+              <div id="chartLineReport" class="muted small" style="margin-top:12px"></div>
+              <div class="muted small" style="margin-top:10px">Data: CoinGecko market_chart.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-leaders" role="region" aria-label="Leaders">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Market Leaders</div>
+              <div class="muted">Public market data feed (refreshes on heartbeat).</div>
+            </div>
+            <div class="leaders-toolbar">
+              <div class="segmented" role="tablist" aria-label="Leaders mode">
+                <button id="leadersModeGainers" class="seg-btn active" type="button">Gains</button>
+                <button id="leadersModeLosers" class="seg-btn" type="button">Falls</button>
+              </div>
+              <div class="pill">Assets: <span id="leadersUniverse">—</span></div>
+              <div class="pill">Source: <span id="leadersSource">CoinGecko</span></div>
+            </div>
+          </div>
+
+          <div class="leaders">
+            <div class="leaders-head">
+              <div>Asset</div>
+              <div class="right">Price</div>
+              <div class="right">24h</div>
+            </div>
+            <div id="leadersList" class="leaders-list"></div>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-brain" role="region" aria-label="Brain">
+          <div class="panel-header">
+            <div>
+              <div class="h1">AI Performance</div>
+              <div class="muted">Activity stream + safeguards telemetry (simulated).</div>
+            </div>
+            <button id="brainToggle" class="btn">Pause stream</button>
+          </div>
+
+          <div class="terminal" id="terminal"></div>
+        </section>
+
+        <section class="panel" id="tab-reports" role="region" aria-label="Reports">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Reports</div>
+              <div class="muted">Clickable drill-down for historical actions (mock dataset; infinite-scroll style).</div>
+            </div>
+            <div class="reports-actions">
+              <input id="reportSearch" class="input" placeholder="Search (id, asset, status)" />
+              <button id="reportsNewBtn" class="btn primary" hidden>New updates (<span id="reportsNewCount">0</span>)</button>
+              <button id="exportBtn" class="btn">Export CSV</button>
+            </div>
+          </div>
+
+          <div id="reportsList" class="reports"></div>
+        </section>
+
+        <section class="panel" id="tab-ops" role="region" aria-label="Ops">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Ops</div>
+              <div class="muted">Observability + audit stream (foundation for best-ever reliability).</div>
+            </div>
+            <div class="pill">Market stream: <span id="opsMarket">—</span></div>
+            <div class="pill">Audit: <span id="opsAudit">—</span></div>
+            <div class="pill"><button id="opsForceSnapshot" class="btn">Force snapshot</button></div>
+            <div class="pill"><button id="opsReconnect" class="btn">Reconnect streams</button></div>
+          </div>
+
+          <div class="charts-grid">
+            <div class="card">
+              <div class="card-title">Health</div>
+              <div class="stats">
+                <div class="stat"><div class="muted small">Universe assets</div><div id="opsUniverse" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Last market update</div><div id="opsLastMarket" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Stream lag</div><div id="opsLag" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Market freshness</div><div id="opsFresh" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Audit freshness</div><div id="opsAuditFresh" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">CoinGecko</div><div id="opsCg" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Binance</div><div id="opsBn" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">DexScreener</div><div id="opsDex" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Paper positions</div><div id="opsPaperPos" class="stat-val">—</div></div>
+                <div class="stat"><div class="muted small">Paper banked</div><div id="opsPaperBanked" class="stat-val">—</div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">Audit stream</div>
+              <div id="opsAuditList" class="terminal" style="height:440px"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-vault" role="region" aria-label="Vault">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Vault</div>
+              <div class="muted">Non-custodial: deposits/withdrawals happen in your wallet or exchange. This screen is UX scaffolding.</div>
+            </div>
+          </div>
+
+          <div class="vault">
+            <div class="card">
+              <div class="card-title">Balance</div>
+              <div class="vault-balance">$<span id="vaultBalance">0.00</span></div>
+              <div class="muted small">Connect wallet to show real balances (planned).</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Execution network</div>
+              <div class="muted small" style="margin-bottom:10px">Choose your on-chain wallet network for future live execution.</div>
+              <select id="vaultNetwork" class="select" style="width:100%">
+                <option value="solana">Solana (Phantom + Jupiter)</option>
+                <option value="evm">EVM (MetaMask)</option>
+              </select>
+              <div class="muted small" style="margin-top:12px">Wallet: <span id="vaultWallet" class="stat-val">Not connected</span></div>
+              <div class="vault-actions" style="margin-top:10px">
+                <button id="vaultConnect" class="btn primary">Connect wallet</button>
+              </div>
+              <div class="muted small" style="margin-top:12px">Live execution (EVM) will require explicit confirmation each time.</div>
+              <div class="muted small" style="margin-top:10px">
+                <label style="display:flex;align-items:center;gap:10px">
+                  <input id="vaultArm" type="checkbox" /> Arm trading
+                </label>
+              </div>
+              <div class="muted small" style="margin-top:10px">Max USD per trade</div>
+              <input id="vaultMaxUsd" class="input" value="250" />
+              <div class="muted small" style="margin-top:10px">Slippage (bps)</div>
+              <input id="vaultSlippage" class="input" value="75" />
+            </div>
+            <div class="card">
+              <div class="card-title">Actions</div>
+              <div class="vault-actions">
+                <button id="addFunds" class="btn primary">Add funds</button>
+                <button id="withdrawFunds" class="btn">Withdraw</button>
+              </div>
+              <div class="muted small">These buttons will deep-link to wallet flows in V2.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-tutorial" role="region" aria-label="Tutorial">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Learn</div>
+              <div class="muted">50+ lessons on crypto, markets, strategies and using Juzzy.</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <select id="tutCat" class="select" style="min-width:160px">
+                <option value="all">All categories</option>
+              </select>
+              <input id="tutSearch" class="input" placeholder="Search lessons…" style="width:180px" />
+              <span id="tutProgress" class="muted small"></span>
+            </div>
+          </div>
+
+          <!-- catalog grid -->
+          <div id="tutCatalog" class="tut-catalog"></div>
+
+          <!-- mode chooser (shown before lesson starts) -->
+          <div id="tutModeChooser" class="tut-mode-chooser" hidden>
+            <div class="card tut-mode-card">
+              <div id="tutModeTitle" class="h2" style="margin-bottom:6px"></div>
+              <div id="tutModeDesc" class="muted small" style="margin-bottom:18px"></div>
+              <div class="tut-mode-options">
+                <button id="tutModeRead" class="btn tut-mode-btn">
+                  <span class="tut-mode-icon">📖</span>
+                  <span class="tut-mode-label">I'll read it myself</span>
+                </button>
+                <button id="tutModeAI" class="btn tut-mode-btn primary">
+                  <span class="tut-mode-icon">🔊</span>
+                  <span class="tut-mode-label">Read it to me (AI voice)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- lesson reader (hidden until a lesson is opened) -->
+          <div id="tutReader" class="tut-reader" hidden>
+            <div class="tut-reader-head">
+              <button id="tutBack" class="btn">← Back to lessons</button>
+              <span id="tutLessonTitle" class="h2" style="flex:1"></span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <button id="tutTtsToggle" class="btn tut-tts-btn" title="Toggle voice reading">🔊</button>
+                <span id="tutStepLabel" class="muted small"></span>
+              </div>
+            </div>
+            <div class="tut-reader-main">
+              <div class="card tut-content-card">
+                <div id="tutBody" class="tut-body"></div>
+              </div>
+              <div class="tut-chat-panel">
+                <div class="tut-chat-head">
+                  <span class="tut-chat-title">AI Assistant</span>
+                  <span class="muted small">Ask me anything about this lesson</span>
+                </div>
+                <div id="tutChatMessages" class="tut-chat-messages"></div>
+                <div class="tut-chat-input-row">
+                  <input id="tutChatInput" class="input" placeholder="Type a question…" />
+                  <button id="tutChatSend" class="btn primary">Ask</button>
+                </div>
+              </div>
+            </div>
+            <div class="tut-reader-foot">
+              <button id="tutPrev" class="btn">← Prev</button>
+              <button id="tutNext" class="btn primary">Next →</button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="muted small">Trading is risky. This app is a UX scaffold and does not guarantee profits. Fees are explicit and user-consented.</div>
+      </footer>
+    </div>
+
+    <div id="modal" class="modal" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <div class="modal-head">
+          <div id="modalTitle" class="modal-title"></div>
+          <button id="modalClose" class="icon-btn" aria-label="Close">×</button>
+        </div>
+        <div id="modalBody" class="modal-body"></div>
+        <div class="modal-actions">
+          <button id="modalPrimary" class="btn primary">OK</button>
+          <button id="modalSecondary" class="btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.title = 'Juzzy: loading…';
+      window.addEventListener('error', function(e) {
+        document.title = 'Juzzy: JS ERROR';
+        var d = document.createElement('div');
+        d.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:red;color:#fff;padding:12px;font:14px monospace';
+        d.textContent = 'JS Error: ' + (e.message || e) + ' at ' + (e.filename || '') + ':' + (e.lineno || '');
+        document.body.appendChild(d);
+      });
+    </script>
+    <script src="tutorials.js?v=2"></script>
+    <script src="tutorials2.js?v=2"></script>
+    <script src="main.js?v=20260323d"></script>
+  </body>
+</html>
