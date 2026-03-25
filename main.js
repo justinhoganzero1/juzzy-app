@@ -9,6 +9,29 @@
     simpleMode: true,
   };
 
+  const COUNTRY_PROFILES = [
+    { code: 'US', name: 'United States', currency: 'USD', legal: 'Crypto rules vary by state. Tax reporting may apply to disposals and income events.' },
+    { code: 'GB', name: 'United Kingdom', currency: 'GBP', legal: 'Cryptoassets can fall under FCA/HMRC rules depending on activity and reporting obligations.' },
+    { code: 'AU', name: 'Australia', currency: 'AUD', legal: 'Digital assets may be taxable and subject to consumer, licensing, and AML obligations.' },
+    { code: 'CA', name: 'Canada', currency: 'CAD', legal: 'Crypto gains and business activity may be taxable and subject to provincial guidance.' },
+    { code: 'DE', name: 'Germany', currency: 'EUR', legal: 'Tax and regulatory treatment depends on holding period, product structure, and use case.' },
+    { code: 'FR', name: 'France', currency: 'EUR', legal: 'French registration, tax, and investor protection requirements may apply.' },
+    { code: 'ES', name: 'Spain', currency: 'EUR', legal: 'Spanish tax reporting and local compliance requirements may apply to crypto holdings.' },
+    { code: 'SG', name: 'Singapore', currency: 'SGD', legal: 'Digital payment token activity may fall within MAS frameworks depending on the service.' },
+    { code: 'JP', name: 'Japan', currency: 'JPY', legal: 'Japanese financial regulation can apply to exchange and token-related activity.' },
+    { code: 'KR', name: 'South Korea', currency: 'KRW', legal: 'Virtual asset activity may require compliance with local exchange and reporting frameworks.' },
+    { code: 'BR', name: 'Brazil', currency: 'BRL', legal: 'Brazilian tax and reporting obligations may apply to crypto transactions and holdings.' },
+    { code: 'IN', name: 'India', currency: 'INR', legal: 'Indian crypto taxation and reporting obligations may apply under current policy settings.' },
+    { code: 'AE', name: 'United Arab Emirates', currency: 'AED', legal: 'Rules vary by emirate and free-zone regulator depending on the product and service.' },
+    { code: 'ZA', name: 'South Africa', currency: 'ZAR', legal: 'Crypto may be taxable and subject to evolving FSCA and exchange-control related guidance.' },
+    { code: 'NG', name: 'Nigeria', currency: 'NGN', legal: 'Rules are evolving; review current SEC and CBN guidance before regulated activity.' },
+  ];
+
+  const COMMON_LANGUAGES = [
+    'en', 'es', 'fr', 'de', 'it', 'pt', 'ar', 'zh', 'zh-Hant', 'ja', 'ko', 'hi', 'bn', 'ur', 'ru', 'uk', 'tr', 'pl', 'id', 'vi',
+    'th', 'sw', 'yo', 'am', 'fa', 'he', 'nl', 'sv', 'fi', 'no', 'da', 'cs', 'el', 'hu', 'ro', 'bg', 'sr', 'hr', 'sk', 'sl',
+  ];
+
   const els = {
     hbMs: document.getElementById('hbMs'),
     statusText: document.getElementById('statusText'),
@@ -84,11 +107,10 @@
     tutModeDesc: document.getElementById('tutModeDesc'),
     tutModeRead: document.getElementById('tutModeRead'),
     tutModeAI: document.getElementById('tutModeAI'),
+    tutModeDeep: document.getElementById('tutModeDeep'),
     tutReader: document.getElementById('tutReader'),
-    tutBack: document.getElementById('tutBack'),
-    tutLessonTitle: document.getElementById('tutLessonTitle'),
-    tutStepLabel: document.getElementById('tutStepLabel'),
-    tutTtsToggle: document.getElementById('tutTtsToggle'),
+    tutTitle: document.getElementById('tutTitle'),
+    tutLessonCat: document.getElementById('tutLessonCat'),
     tutBody: document.getElementById('tutBody'),
     tutPrev: document.getElementById('tutPrev'),
     tutNext: document.getElementById('tutNext'),
@@ -98,9 +120,48 @@
     modal: document.getElementById('modal'),
     modalTitle: document.getElementById('modalTitle'),
     modalBody: document.getElementById('modalBody'),
+    tutAiSettings: document.getElementById('tutAiSettings'),
     modalClose: document.getElementById('modalClose'),
     modalPrimary: document.getElementById('modalPrimary'),
     modalSecondary: document.getElementById('modalSecondary'),
+    authGate: document.getElementById('authGate'),
+    authSignInEmail: document.getElementById('authSignInEmail'),
+    authSignInPassword: document.getElementById('authSignInPassword'),
+    authSignInGoogleBtn: document.getElementById('authSignInGoogleBtn'),
+    authSignInAppleBtn: document.getElementById('authSignInAppleBtn'),
+    authSignInBtn: document.getElementById('authSignInBtn'),
+    authName: document.getElementById('authName'),
+    authEmail: document.getElementById('authEmail'),
+    authPassword: document.getElementById('authPassword'),
+    authCountry: document.getElementById('authCountry'),
+    authLanguage: document.getElementById('authLanguage'),
+    authLanguageCustom: document.getElementById('authLanguageCustom'),
+    authCountryLegal: document.getElementById('authCountryLegal'),
+    authLegalAgree: document.getElementById('authLegalAgree'),
+    authGoogleBtn: document.getElementById('authGoogleBtn'),
+    authAppleBtn: document.getElementById('authAppleBtn'),
+    authSignUpBtn: document.getElementById('authSignUpBtn'),
+    authUseStripeBtn: document.getElementById('authUseStripeBtn'),
+    authSignOutBtn: document.getElementById('authSignOutBtn'),
+    userIdentityPill: document.getElementById('userIdentityPill'),
+    openSettingsBtn: document.getElementById('openSettingsBtn'),
+    portfolioCountry: document.getElementById('portfolioCountry'),
+    portfolioLanguage: document.getElementById('portfolioLanguage'),
+    portfolioTotalValue: document.getElementById('portfolioTotalValue'),
+    portfolioPositions: document.getElementById('portfolioPositions'),
+    portfolioRegionCurrency: document.getElementById('portfolioRegionCurrency'),
+    portfolioCountryLegal: document.getElementById('portfolioCountryLegal'),
+    portfolioRows: document.getElementById('portfolioRows'),
+    portfolioConnectWallet: document.getElementById('portfolioConnectWallet'),
+    portfolioSubscribe: document.getElementById('portfolioSubscribe'),
+    settingsCountry: document.getElementById('settingsCountry'),
+    settingsLanguage: document.getElementById('settingsLanguage'),
+    settingsLanguageCustom: document.getElementById('settingsLanguageCustom'),
+    settingsLegalText: document.getElementById('settingsLegalText'),
+    saveSettingsBtn: document.getElementById('saveSettingsBtn'),
+    checkYoutubeLinksBtn: document.getElementById('checkYoutubeLinksBtn'),
+    openYoutubePlaylistBtn: document.getElementById('openYoutubePlaylistBtn'),
+    youtubeLinkStatus: document.getElementById('youtubeLinkStatus'),
 
     chart: document.getElementById('chart'),
     chartFilterAll: document.getElementById('chartFilterAll'),
@@ -180,6 +241,13 @@
       email: '',
       lastBillingFetchAt: 0,
     },
+    profile: {
+      loggedIn: false,
+      name: '',
+      country: 'US',
+      language: 'en',
+      languageCustom: '',
+    },
     ui: {
       simpleMode: false,
       actionStatus: 'Idle',
@@ -249,6 +317,133 @@
       els.vaultSlippage.value = String(state.vault.slippageBps || 75);
     }
     renderVaultWallet();
+    renderPortfolio();
+    renderProfileUi();
+  }
+
+  function saveAuthProfile({ name, email, country, language, languageCustom, loggedIn }) {
+    state.profile.name = String(name || '').trim();
+    state.profile.country = String(country || 'US').toUpperCase();
+    state.profile.language = String(language || 'en').trim() || 'en';
+    state.profile.languageCustom = String(languageCustom || '').trim();
+    state.profile.loggedIn = Boolean(loggedIn);
+    state.user.email = String(email || '').trim();
+    if (els.email) els.email.value = state.user.email;
+    saveProfile();
+    try {
+      localStorage.setItem('pos_email', state.user.email);
+    } catch {
+      // ignore
+    }
+    renderProfileUi();
+    renderPortfolio();
+    state.user.lastBillingFetchAt = 0;
+    fetchBillingStatus();
+  }
+
+  function signInProfile() {
+    const email = String(els.authSignInEmail?.value || '').trim();
+    const password = String(els.authSignInPassword?.value || '').trim();
+    if (!validateEmail(email)) {
+      appendTerminal('WARN', 'Sign-in requires a valid email.');
+      return;
+    }
+    if (password.length < 4) {
+      appendTerminal('WARN', 'Sign-in requires a password.');
+      return;
+    }
+    const fallbackName = state.profile.name || email.split('@')[0] || 'User';
+    saveAuthProfile({
+      name: fallbackName,
+      email,
+      country: state.profile.country,
+      language: state.profile.language,
+      languageCustom: state.profile.languageCustom,
+      loggedIn: true,
+    });
+    appendTerminal('AUTH', `Signed in as ${email}.`);
+    setActiveTab('home');
+  }
+
+  function signUpProfile() {
+    const name = String(els.authName?.value || '').trim();
+    const email = String(els.authEmail?.value || '').trim();
+    const password = String(els.authPassword?.value || '').trim();
+    const country = String(els.authCountry?.value || 'US').toUpperCase();
+    const language = String(els.authLanguage?.value || 'en').trim();
+    const languageCustom = String(els.authLanguageCustom?.value || '').trim();
+    if (!name) {
+      appendTerminal('WARN', 'Create account requires your name.');
+      return;
+    }
+    if (!validateEmail(email)) {
+      appendTerminal('WARN', 'Create account requires a valid email.');
+      return;
+    }
+    if (password.length < 6) {
+      appendTerminal('WARN', 'Create account requires a password with at least 6 characters.');
+      return;
+    }
+    if (!els.authLegalAgree?.checked) {
+      appendTerminal('WARN', 'Please accept your country legal requirements to continue.');
+      return;
+    }
+    saveAuthProfile({
+      name,
+      email,
+      country,
+      language: language === 'custom' ? 'custom' : language,
+      languageCustom,
+      loggedIn: true,
+    });
+    appendTerminal('AUTH', `Account ready for ${email}.`);
+    setActiveTab('portfolio');
+  }
+
+  function socialSignUp(provider) {
+    const source = String(provider || '').toLowerCase() === 'apple' ? 'Apple' : 'Google';
+    const country = String(els.authCountry?.value || state.profile.country || 'US').toUpperCase();
+    const language = String(els.authLanguage?.value || state.profile.language || 'en').trim();
+    const languageCustom = String(els.authLanguageCustom?.value || '').trim();
+    const fallbackName = source === 'Apple' ? 'Apple User' : 'Google User';
+    const existingEmail = String(els.authEmail?.value || state.user.email || '').trim();
+    const email = validateEmail(existingEmail)
+      ? existingEmail
+      : `${source.toLowerCase()}.user.${Date.now()}@juzzy.local`;
+    if (!els.authLegalAgree?.checked) {
+      appendTerminal('WARN', `Please accept your country legal requirements before continuing with ${source}.`);
+      return;
+    }
+    saveAuthProfile({
+      name: String(els.authName?.value || '').trim() || fallbackName,
+      email,
+      country,
+      language: language === 'custom' ? 'custom' : language,
+      languageCustom,
+      loggedIn: true,
+    });
+    appendTerminal('AUTH', `${source} quick signup ready.`);
+    setActiveTab('portfolio');
+  }
+
+  function signOutProfile() {
+    state.profile.loggedIn = false;
+    saveProfile();
+    renderProfileUi();
+    appendTerminal('AUTH', 'Signed out.');
+  }
+
+  function applySettingsProfile() {
+    const country = String(els.settingsCountry?.value || state.profile.country || 'US').toUpperCase();
+    const language = String(els.settingsLanguage?.value || state.profile.language || 'en').trim();
+    const languageCustom = String(els.settingsLanguageCustom?.value || '').trim();
+    state.profile.country = country;
+    state.profile.language = language === 'custom' ? 'custom' : language;
+    state.profile.languageCustom = languageCustom;
+    saveProfile();
+    renderProfileUi();
+    renderPortfolio();
+    appendTerminal('INFO', 'Profile settings saved.');
   }
 
   function saveVaultNetwork(net) {
@@ -294,6 +489,181 @@
     } else {
       els.vaultWallet.textContent = 'Not connected';
     }
+  }
+
+  function getCountryProfile(code) {
+    const key = String(code || '').toUpperCase();
+    return COUNTRY_PROFILES.find((c) => c.code === key) || {
+      code: key || 'GLOBAL',
+      name: key || 'Global',
+      currency: 'USD',
+      legal: 'Local laws differ by jurisdiction. Verify crypto, tax, wallet, and trading obligations in your country.',
+    };
+  }
+
+  function getSelectedLanguage(selectEl, customEl) {
+    const custom = String(customEl?.value || '').trim();
+    if (custom) return custom;
+    return String(selectEl?.value || 'en').trim() || 'en';
+  }
+
+  function formatLanguage(code) {
+    const value = String(code || 'en').trim() || 'en';
+    try {
+      const base = value.split('-')[0];
+      const name = new Intl.DisplayNames([base], { type: 'language' }).of(base);
+      return name ? `${name} (${value})` : value;
+    } catch {
+      return value;
+    }
+  }
+
+  function populateCountryOptions() {
+    [els.authCountry, els.settingsCountry].filter(Boolean).forEach((sel) => {
+      const prev = String(sel.value || state.profile.country || 'US');
+      sel.innerHTML = '';
+      for (const item of COUNTRY_PROFILES) {
+        const opt = document.createElement('option');
+        opt.value = item.code;
+        opt.textContent = `${item.name} (${item.code})`;
+        sel.appendChild(opt);
+      }
+      sel.value = COUNTRY_PROFILES.some((item) => item.code === prev) ? prev : 'US';
+    });
+  }
+
+  function populateLanguageOptions() {
+    [els.authLanguage, els.settingsLanguage].filter(Boolean).forEach((sel) => {
+      const prev = String(sel.value || state.profile.language || 'en');
+      sel.innerHTML = '';
+      for (const code of COMMON_LANGUAGES) {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = formatLanguage(code);
+        sel.appendChild(opt);
+      }
+      const custom = document.createElement('option');
+      custom.value = 'custom';
+      custom.textContent = 'Custom language code';
+      sel.appendChild(custom);
+      sel.value = COMMON_LANGUAGES.includes(prev) ? prev : 'custom';
+    });
+  }
+
+  function saveProfile() {
+    try {
+      localStorage.setItem('juzzy_profile', JSON.stringify(state.profile));
+    } catch {
+      // ignore
+    }
+  }
+
+  function loadProfile() {
+    try {
+      const raw = JSON.parse(localStorage.getItem('juzzy_profile') || 'null');
+      if (raw && typeof raw === 'object') {
+        state.profile.loggedIn = Boolean(raw.loggedIn);
+        state.profile.name = String(raw.name || '');
+        state.profile.country = String(raw.country || 'US');
+        state.profile.language = String(raw.language || 'en');
+        state.profile.languageCustom = String(raw.languageCustom || '');
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  function renderCountryLegal() {
+    const p = getCountryProfile(state.profile.country);
+    const text = `${p.name}: ${p.legal}`;
+    if (els.authCountryLegal) els.authCountryLegal.textContent = text;
+    if (els.settingsLegalText) els.settingsLegalText.textContent = text;
+    if (els.portfolioCountryLegal) els.portfolioCountryLegal.textContent = text;
+    if (els.portfolioRegionCurrency) els.portfolioRegionCurrency.textContent = `${p.name} / ${p.currency}`;
+  }
+
+  function renderProfileUi() {
+    const lang = state.profile.languageCustom || state.profile.language || 'en';
+    const country = getCountryProfile(state.profile.country);
+    if (els.userIdentityPill) {
+      els.userIdentityPill.textContent = state.profile.loggedIn
+        ? `${state.profile.name || state.user.email || 'User'} • ${country.code}`
+        : 'Guest';
+    }
+    if (els.portfolioCountry) els.portfolioCountry.textContent = country.name;
+    if (els.portfolioLanguage) els.portfolioLanguage.textContent = formatLanguage(lang);
+    if (els.settingsCountry) els.settingsCountry.value = country.code;
+    if (els.settingsLanguage) els.settingsLanguage.value = COMMON_LANGUAGES.includes(state.profile.language) ? state.profile.language : 'custom';
+    if (els.settingsLanguageCustom) els.settingsLanguageCustom.value = state.profile.languageCustom || '';
+    if (els.authCountry) els.authCountry.value = country.code;
+    if (els.authLanguage) els.authLanguage.value = COMMON_LANGUAGES.includes(state.profile.language) ? state.profile.language : 'custom';
+    if (els.authLanguageCustom) els.authLanguageCustom.value = state.profile.languageCustom || '';
+    if (els.authGate) els.authGate.hidden = state.profile.loggedIn;
+    renderCountryLegal();
+  }
+
+  function computePortfolioValue() {
+    let total = Number(state.paper.bankedUsd || 0);
+    for (const pos of state.paper.positions.values()) {
+      const cur = state.market.universe.get(pos.key);
+      const px = Number(cur?.priceUsd);
+      const qty = Number(pos.qty || 0);
+      if (Number.isFinite(px) && Number.isFinite(qty)) total += px * qty;
+    }
+    return total;
+  }
+
+  function renderPortfolio() {
+    if (els.portfolioTotalValue) els.portfolioTotalValue.textContent = `$${formatMoney(computePortfolioValue())}`;
+    if (els.portfolioPositions) els.portfolioPositions.textContent = String(state.paper.positions.size || 0);
+    if (!els.portfolioRows) return;
+    const rows = [];
+    for (const pos of state.paper.positions.values()) {
+      const cur = state.market.universe.get(pos.key);
+      const px = Number(cur?.priceUsd);
+      const qty = Number(pos.qty || 0);
+      const value = Number.isFinite(px) ? px * qty : 0;
+      rows.push(`
+        <div class="report">
+          <div><div class="id">${escapeHtml(String(pos.symbol || pos.name || pos.key))}</div><div class="muted small">${escapeHtml(String(pos.name || 'Tracked position'))}</div></div>
+          <div><div style="font-weight:950">Qty ${formatMoney(qty)}</div><div class="muted small">Entry $${formatMoney(pos.entryPriceUsd || 0)}</div></div>
+          <div><div style="font-weight:950">Value $${formatMoney(value)}</div><div class="muted small">Last $${formatMoney(px || 0)}</div></div>
+          <div class="right"><button class="btn" style="height:38px" disabled>Tracked</button></div>
+        </div>
+      `);
+    }
+    if (!rows.length) {
+      rows.push('<div class="muted">No holdings yet. Start with Tutorials, Leaders, Charts, or Oracle.</div>');
+    }
+    els.portfolioRows.innerHTML = rows.join('');
+  }
+
+  function findTutorialYouTubeLinks() {
+    const links = [];
+    const rx = /https:\/\/(?:www\.)?(?:youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/gi;
+    for (const tut of allTutorials) {
+      for (const step of Array.isArray(tut?.steps) ? tut.steps : []) {
+        const html = String(step?.html || '');
+        let m;
+        while ((m = rx.exec(html))) {
+          links.push({ tutorial: String(tut.title || tut.id || 'Tutorial'), url: m[0], videoId: m[1] });
+        }
+      }
+    }
+    return links;
+  }
+
+  function validateYouTubeLinks() {
+    const found = findTutorialYouTubeLinks();
+    const bad = found.filter((x) => !x.videoId || x.videoId.length < 6);
+    if (!els.youtubeLinkStatus) return;
+    if (!found.length) {
+      els.youtubeLinkStatus.textContent = 'No YouTube links found in tutorials.';
+      return;
+    }
+    els.youtubeLinkStatus.textContent = bad.length
+      ? `Checked ${found.length} links. ${bad.length} invalid link(s) found.`
+      : `Checked ${found.length} links. All detected YouTube links have valid structure.`;
   }
 
   function toHexQty(n) {
@@ -1018,6 +1388,7 @@
       pnl += value - pos.notionalUsd;
     }
     els.kpiPaperPnl.textContent = `$${formatMoney(pnl)}`;
+    renderPortfolio();
   }
 
   function ensurePaperPosition(it, notionalUsd = 100) {
@@ -1155,28 +1526,41 @@
     return Array.from(document.querySelectorAll(sel));
   }
 
-  function setActiveTab(tab) {
-    qsAll('.tab').forEach((b) => b.classList.toggle('active', b.dataset.tab === tab));
-    qsAll('.panel').forEach((p) => p.classList.toggle('active', p.id === `tab-${tab}`));
-
-
-    if (tab === 'charts') {
-      window.setTimeout(() => initOrResizeChart(), 0);
+  function setActiveTab(tabId) {
+    qsAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+    qsAll('.panel').forEach(p => p.classList.toggle('active', p.id === `tab-${tabId}`));
+    if (tabId === 'learn' || tabId === 'tutorial') {
+      initTutCategoryOptions();
+      renderTutorialCatalog();
+      // Initialize particles when tutorial tab opens
+      if (tabId === 'tutorial') {
+        initTutorialParticles();
+      }
     }
-
-    if (tab === 'leaders') {
+    if (tabId === 'charts') {
+      if (!state.charts.initialized) {
+        initOrResizeChart();
+        state.charts.initialized = true;
+      }
+    }
+    if (tabId === 'leaders') {
       renderLeaders();
     }
 
-    if (tab === 'reports') {
+    if (tabId === 'reports') {
       resetReportsRender();
     }
 
-    if (tab === 'ops') {
+    if (tabId === 'ops') {
       renderOps();
     }
 
-    emitAudit('UI_TAB', { tab });
+    if (tabId === 'portfolio' || tabId === 'settings') {
+      renderProfileUi();
+      renderPortfolio();
+    }
+
+    emitAudit('UI_TAB', { tab: tabId });
   }
 
   async function emitAudit(type, data, level = 'INFO') {
@@ -2257,31 +2641,77 @@
     }
   }
 
-  function renderTutCatalog() {
+  function renderTutorialCatalog() {
     if (!els.tutCatalog) return;
-    const cat = String(els.tutCat?.value || 'all');
-    const q = String(els.tutSearch?.value || '').trim().toLowerCase();
-    const done = getTutCompleted();
     const filtered = allTutorials.filter(t => {
-      if (cat !== 'all' && t.cat !== cat) return false;
-      if (q && !t.title.toLowerCase().includes(q) && !t.desc.toLowerCase().includes(q) && !t.cat.toLowerCase().includes(q)) return false;
+      if (tutState.cat !== 'all' && t.cat !== tutState.cat) return false;
+      if (tutState.search) {
+        const s = tutState.search.toLowerCase();
+        return t.title.toLowerCase().includes(s) || t.desc.toLowerCase().includes(s);
+      }
       return true;
     });
-    els.tutCatalog.innerHTML = '';
-    for (const t of filtered) {
-      const completed = done.has(t.id);
-      const card = document.createElement('div');
-      card.className = 'tut-card' + (completed ? ' completed' : '');
-      card.innerHTML = `<div class="tut-card-cat">${t.cat}</div><div class="tut-card-title">${t.title}</div><div class="tut-card-desc">${t.desc}</div><div class="tut-card-meta"><span>${t.steps.length} steps</span>${completed ? '<span class="tut-card-badge done">Completed</span>' : '<span class="tut-card-badge new">New</span>'}</div>`;
-      card.addEventListener('click', () => openTutLesson(t.id));
-      els.tutCatalog.appendChild(card);
-    }
-    const total = allTutorials.length;
-    const doneCount = allTutorials.filter(t => done.has(t.id)).length;
-    if (els.tutProgress) els.tutProgress.textContent = `${doneCount}/${total} completed`;
+    els.tutCatalog.innerHTML = filtered.map(t => `
+      <div class="tut-card ${tutState.completed.includes(t.id) ? 'completed' : ''}" data-tut-id="${t.id}">
+        <div class="tut-card-title">${t.title}</div>
+        <div class="tut-card-desc">${t.desc}</div>
+        <div class="tut-card-meta">
+          <span class="tut-card-badge ${tutState.completed.includes(t.id) ? 'done' : ''}">${tutState.completed.includes(t.id) ? '✓ Done' : t.cat}</span>
+          <span>${t.steps.length} steps</span>
+        </div>
+      </div>
+    `).join('');
+    Array.from(els.tutCatalog.querySelectorAll('.tut-card')).forEach(el => {
+      el.addEventListener('click', () => {
+        const id = el.getAttribute('data-tut-id');
+        openTutLesson(id);
+      });
+    });
   }
 
-  let activeTutId = null;
+  // Particle effects for tutorial
+  function initTutorialParticles() {
+    const container = document.getElementById('tutParticles');
+    if (!container) return;
+    
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'tut-particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 15 + 's';
+      particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+      container.appendChild(particle);
+      tutState.particles.push(particle);
+    }
+  }
+
+  // Achievement notification
+  function showAchievement(title, description, icon = '🏆') {
+    const achievement = document.createElement('div');
+    achievement.className = 'tut-achievement';
+    achievement.innerHTML = `
+      <div class="tut-achievement-icon">${icon}</div>
+      <div>
+        <div style="font-weight:600">${title}</div>
+        <div class="muted small">${description}</div>
+      </div>
+    `;
+    document.body.appendChild(achievement);
+    
+    setTimeout(() => achievement.classList.add('show'), 100);
+    setTimeout(() => {
+      achievement.classList.remove('show');
+      setTimeout(() => achievement.remove(), 500);
+    }, 4000);
+    
+    // Track achievement
+    const id = title.replace(/\s+/g, '_').toLowerCase();
+    if (!tutState.achievements.includes(id)) {
+      tutState.achievements.push(id);
+      localStorage.setItem('juzzy_tutorial_achievements', JSON.stringify(tutState.achievements));
+    }
+  }
+
   let activeTutStep = 0;
   let tutTtsEnabled = false;
 
@@ -2337,63 +2767,202 @@
     tutChatAddMsg('user', question.replace(/</g, '&lt;'));
     const thinking = tutChatAddMsg('ai', '<span class="ai-thinking">Thinking…</span>');
 
-    setTimeout(() => {
-      const answer = generateTutAnswer(q);
+    setTimeout(async () => {
+      const answer = await generateTutAnswer(question, q);
       if (thinking) thinking.innerHTML = answer;
       els.tutChatMessages.scrollTop = els.tutChatMessages.scrollHeight;
       if (tutTtsEnabled) tutTtsSpeak(answer);
     }, 600 + Math.random() * 400);
   }
 
-  function generateTutAnswer(q) {
-    const tut = allTutorials.find(t => t.id === activeTutId);
-    const step = tut ? tut.steps[activeTutStep] : null;
-    const allText = tut ? tut.steps.map(s => s.title + ' ' + s.html.replace(/<[^>]+>/g, ' ')).join(' ').toLowerCase() : '';
+  function tutEscapeHtml(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
 
-    const kw = (words) => words.some(w => q.includes(w));
+  function tutStripHtml(s) {
+    return String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
 
-    if (kw(['what is', 'explain', 'define', 'meaning'])) {
-      if (step) return `<p>Great question! This step covers <strong>${step.title}</strong>. ${extractFirstSentences(step.html, 2)}</p><p>Would you like me to go deeper on any part?</p>`;
+  function tutContainsAny(q, words) {
+    return words.some((w) => q.includes(w));
+  }
+
+  function getTutorialAIConfig() {
+    return {
+      endpoint: String(localStorage.getItem('juzzy_tutorial_ai_endpoint') || '').trim(),
+      apiKey: String(localStorage.getItem('juzzy_tutorial_ai_key') || '').trim(),
+      model: String(localStorage.getItem('juzzy_tutorial_ai_model') || 'gpt-4o-mini').trim(),
+    };
+  }
+
+  async function tutFetchOnlineAnswer(question, context) {
+    const cfg = getTutorialAIConfig();
+    if (!cfg.endpoint || !cfg.apiKey) return null;
+    try {
+      const resp = await fetch(cfg.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${cfg.apiKey}`,
+        },
+        body: JSON.stringify({
+          model: cfg.model,
+          messages: [
+            {
+              role: 'system',
+              content: `You are Juzzy's tutorial AI assistant. You are helpful, concise, and knowledgeable about crypto, trading, finance, programming, science, history, writing, business, and general knowledge. When the user asks about the current lesson, prioritize explaining that content. Avoid giving financial advice; suggest risk management instead.`,
+            },
+            {
+              role: 'user',
+              content: `Current lesson context: ${context}\n\nUser question: ${question}`,
+            },
+          ],
+          temperature: 0.7,
+          max_tokens: 400,
+        }),
+      });
+      if (!resp.ok) return null;
+      const data = await resp.json();
+      return data.choices?.[0]?.message?.content || null;
+    } catch {
+      return null;
     }
-    if (kw(['example', 'show me', 'give me'])) {
-      if (tut && tut.cat === 'Crypto Basics') return '<p>Here\'s a simple example: imagine you want to send $100 to a friend overseas. With a bank, it takes 3–5 days and costs $25 in fees. With crypto, you can send it in minutes for less than $1. That\'s the power of decentralised money.</p>';
-      if (tut && tut.cat === 'Trading Strategies') return '<p>Example: You have $1,000 and want to DCA into Bitcoin. You set up $50 weekly buys. Week 1 BTC is at $60K, you get 0.00083 BTC. Week 2 it drops to $50K, you get 0.001 BTC (more coins for the same money!). Over time your average price smooths out.</p>';
-      return '<p>The best way to learn is to try it in Juzzy with paper trading first. Go to the Vault tab, keep the Arm toggle OFF, and the system will simulate trades for you. Check Reports to see results.</p>';
-    }
-    if (kw(['risk', 'danger', 'lose', 'safe'])) {
-      return '<p>Great that you\'re thinking about risk! Key rules:<br>1. Never invest more than you can afford to lose<br>2. Use the 1–2% rule per trade<br>3. Always set stop losses<br>4. Diversify across assets<br>5. Start with paper trading in Juzzy before going live</p>';
-    }
-    if (kw(['juzzy', 'this app', 'how do i', 'how to use'])) {
-      return '<p>In Juzzy:<br>• <strong>Leaders tab</strong> — see top market movers<br>• <strong>Charts tab</strong> — analyse price charts with filters<br>• <strong>Brain tab</strong> — watch AI signals<br>• <strong>Vault tab</strong> — connect wallet and configure trades<br>• <strong>Reports tab</strong> — review all your activity<br>Want to know about a specific feature?</p>';
-    }
-    if (kw(['buy', 'sell', 'trade', 'execute'])) {
-      return '<p>To execute a trade in Juzzy:<br>1. Go to <strong>Vault</strong> and connect your wallet<br>2. Choose your network (EVM/Solana)<br>3. Set Max USD per trade and slippage<br>4. Turn on the <strong>Arm</strong> toggle<br>5. Set resistance lines in Charts — when price crosses them, you\'ll get a trade popup<br>Always start with paper trading (Arm OFF) first!</p>';
-    }
-    if (kw(['fee', 'cost', 'charge', 'price'])) {
-      return '<p>Juzzy charges a <strong>1% upfront service fee</strong> per trade cycle. Gas fees depend on the network: Base is typically under $0.10, Ethereum can be $5–$50+. There\'s also an optional weekly subscription for premium features.</p>';
-    }
-    if (kw(['dca', 'dollar cost'])) {
-      return '<p>DCA means investing a fixed amount on a schedule (e.g., $100 every week). It removes the stress of timing the market. In Juzzy, the One Invest autopilot splits your amount into 24 hourly buys — essentially a micro-DCA over 24 hours.</p>';
-    }
-    if (kw(['wallet', 'metamask', 'phantom', 'connect'])) {
-      return '<p>Juzzy supports:<br>• <strong>MetaMask</strong> for EVM chains (Ethereum, Base)<br>• <strong>Phantom</strong> for Solana (coming soon)<br>Go to the Vault tab, choose your network, and click Connect. Your wallet popup will ask for permission. Juzzy never sees your private key.</p>';
-    }
-    if (kw(['defi', 'decentrali'])) {
-      return '<p>DeFi (Decentralised Finance) recreates banking services using smart contracts — no middlemen needed. Key services: token swaps (DEXs), lending/borrowing, yield farming, and staking. Start with the "DeFi & On-Chain" tutorials in the Learn library for a full walkthrough.</p>';
+  }
+
+  function tutLocalAnswer(q, originalQuestion) {
+    const { tut, step } = (() => {
+      const tut = allTutorials.find(t => t.id === activeTutId);
+      const step = tut ? tut.steps[activeTutStep] : null;
+      return { tut, step };
+    })();
+
+    // Lesson-specific routing
+    if (tutContainsAny(q, ['what is', 'explain', 'define', 'meaning'])) {
+      if (step) return `<p>Great question! This step covers <strong>${step.title}</strong>. ${tutStripHtml(step.html).split('. ').slice(0,2).join('. ')}.</p><p>Would you like me to go deeper on any part?</p>`;
     }
 
-    if (allText && q.length > 3) {
+    // Crypto & DeFi
+    if (tutContainsAny(q, ['bitcoin', 'btc'])) {
+      return '<p><strong>Bitcoin</strong> is the first cryptocurrency, a decentralized digital money secured by proof-of-work. It has a fixed supply of 21 million and is often called digital gold.</p>';
+    }
+    if (tutContainsAny(q, ['ethereum', 'eth'])) {
+      return '<p><strong>Ethereum</strong> is a programmable blockchain that supports smart contracts and decentralized apps. ETH is used to pay for transactions and secure the network.</p>';
+    }
+    if (tutContainsAny(q, ['defi', 'decentralized finance'])) {
+      return '<p><strong>DeFi</strong> recreates financial services like lending, borrowing, and exchanges using smart contracts instead of banks. Popular protocols include Uniswap, Aave, and Compound.</p>';
+    }
+
+    // Trading & risk
+    if (tutContainsAny(q, ['dca', 'dollar cost averaging'])) {
+      return '<p><strong>DCA</strong> means investing a fixed amount regularly, regardless of price. It reduces timing risk. In Juzzy, the One Invest feature splits your amount into 24 hourly buys.</p>';
+    }
+    if (tutContainsAny(q, ['stop loss', 'stop-loss'])) {
+      return '<p>A <strong>stop loss</strong> is a pre-set price to sell an asset to limit downside. For example, a 10% stop on $100 ETH sells at $90 to prevent larger losses.</p>';
+    }
+    if (tutContainsAny(q, ['slippage'])) {
+      return '<p><strong>Slippage</strong> is the difference between expected and actual execution price. It happens on low-liquidity pools or large trades. Juzzy lets you set slippage tolerance in bps.</p>';
+    }
+
+    // Wallets & security
+    if (tutContainsAny(q, ['wallet', 'metamask', 'phantom'])) {
+      return '<p>A <strong>wallet</strong> holds your private keys. MetaMask works for EVM chains like Ethereum and Base; Phantom is for Solana. Never share your seed phrase.</p>';
+    }
+    if (tutContainsAny(q, ['seed phrase', 'private key'])) {
+      return '<p>A <strong>seed phrase</strong> (12–24 words) is your master backup. Anyone with it can steal your funds. Write it on paper and store it securely offline.</p>';
+    }
+
+    // Juzzy app help
+    if (tutContainsAny(q, ['juzzy', 'this app', 'how do i', 'how to use'])) {
+      return '<p>In Juzzy:<br>• <strong>Leaders</strong> — top market movers<br>• <strong>Charts</strong> — price analysis with tools<br>• <strong>Vault</strong> — wallet and trade settings<br>• <strong>Reports</strong> — activity log<br>• <strong>Brain</strong> — AI signals<br>Ask about any specific feature!</p>';
+    }
+
+    // Programming & tech
+    if (tutContainsAny(q, ['javascript', 'js'])) {
+      return '<p><strong>JavaScript</strong> is the language of the web. It\'s used for frontend interactivity, backend Node.js, and smart contracts on some platforms.</p>';
+    }
+    if (tutContainsAny(q, ['api', 'rest api'])) {
+      return '<p>An <strong>API</strong> lets applications talk to each other. REST APIs use HTTP verbs like GET, POST, PUT, DELETE to exchange data, usually as JSON.</p>';
+    }
+
+    // Science & general
+    if (tutContainsAny(q, ['quantum', 'quantum computing'])) {
+      return '<p><strong>Quantum computing</strong> uses quantum bits (qubits) that can be 0, 1, or both. It promises breakthroughs in cryptography, simulation, and optimization.</p>';
+    }
+    if (tutContainsAny(q, ['blockchain'])) {
+      return '<p>A <strong>blockchain</strong> is a distributed ledger where data is stored in sequential blocks linked by cryptography. It\'s immutable and maintained by a network of nodes.</p>';
+    }
+
+    // Fallback to lesson content
+    if (tut && q.length > 3) {
       const words = q.split(/\s+/).filter(w => w.length > 3);
       const relevant = tut.steps.find(s => {
-        const stxt = (s.title + ' ' + s.html).toLowerCase();
+        const stxt = `${s.title} ${s.html}`.toLowerCase();
         return words.some(w => stxt.includes(w));
       });
       if (relevant) {
-        return `<p>Based on this lesson, here\'s what I know about that: ${extractFirstSentences(relevant.html, 2)}</p><p>Check the <strong>${relevant.title}</strong> step for the full explanation.</p>`;
+        return `<p>Based on this lesson, here's what I know: ${tutStripHtml(relevant.html).split('. ').slice(0,2).join('. ')}.</p><p>Check the <strong>${relevant.title}</strong> step for more.</p>`;
       }
     }
 
-    return `<p>That\'s a good question! While I don\'t have a specific answer for "${q.substring(0, 60)}", I\'d suggest:<br>1. Read through the current lesson steps carefully<br>2. Check related tutorials in the Learn library<br>3. For real-time info, look at the Leaders and Brain tabs</p><p>Try rephrasing your question, or ask about a specific concept like "What is DCA?" or "How do I use Charts?"</p>`;
+    // General fallback
+    return `<p>That's a good question! I can answer about crypto, trading, programming, science, history, writing, business, or the current lesson. Try rephrasing or ask about something like "What is DCA?" or "How do wallets work?"</p>`;
+  }
+
+  async function generateTutAnswer(originalQuestion, q) {
+    const { tut, step } = (() => {
+      const tut = allTutorials.find(t => t.id === activeTutId);
+      const step = tut ? tut.steps[activeTutStep] : null;
+      return { tut, step };
+    })();
+    const context = tut ? `Lesson: ${tut.title} (${tut.cat}). Step: ${step ? step.title : 'none'}. Content: ${tutStripHtml(step ? step.html : '')}` : 'No active lesson.';
+
+    // Try online first
+    const online = await tutFetchOnlineAnswer(originalQuestion, context);
+    if (online) return `<p>${tutEscapeHtml(online)}</p>`;
+
+    // Fallback to local
+    return tutLocalAnswer(q, originalQuestion);
+  }
+
+  function openTutorialAISettings() {
+    const cfg = getTutorialAIConfig();
+    openModal({
+      title: 'Tutorial AI Settings',
+      bodyHtml: `
+        <div class="muted small" style="margin-bottom:16px">
+          Configure an OpenAI-compatible API endpoint to enable live AI responses. Leave fields empty to use the built-in local knowledge engine.
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <label class="muted small">API Endpoint (e.g. https://api.openai.com/v1/chat/completions)</label>
+            <input id="tutAiEndpoint" class="input" value="${tutEscapeHtml(cfg.endpoint)}" placeholder="https://api.openai.com/v1/chat/completions" />
+          </div>
+          <div>
+            <label class="muted small">API Key</label>
+            <input id="tutAiKey" class="input" type="password" value="${tutEscapeHtml(cfg.apiKey)}" placeholder="sk-..." />
+          </div>
+          <div>
+            <label class="muted small">Model (e.g. gpt-4o-mini, gpt-4o, gpt-3.5-turbo)</label>
+            <input id="tutAiModel" class="input" value="${tutEscapeHtml(cfg.model)}" placeholder="gpt-4o-mini" />
+          </div>
+        </div>
+      `,
+      primaryText: 'Save',
+      secondaryText: 'Cancel',
+      onPrimary: () => {
+        const endpoint = String(document.getElementById('tutAiEndpoint').value || '').trim();
+        const apiKey = String(document.getElementById('tutAiKey').value || '').trim();
+        const model = String(document.getElementById('tutAiModel').value || '').trim() || 'gpt-4o-mini';
+        localStorage.setItem('juzzy_tutorial_ai_endpoint', endpoint);
+        localStorage.setItem('juzzy_tutorial_ai_key', apiKey);
+        localStorage.setItem('juzzy_tutorial_ai_model', model);
+        if (endpoint && apiKey) {
+          tutChatAddMsg('ai', '✅ Live AI configured! I\'ll now use the online endpoint for responses.');
+        } else {
+          tutChatAddMsg('ai', '⚙️ Settings saved. Using local knowledge engine (no endpoint configured).');
+        }
+      }
+    });
   }
 
   function extractFirstSentences(html, count) {
@@ -2408,16 +2977,19 @@
     if (!tut) return;
     activeTutId = id;
     activeTutStep = 0;
-    tutTtsEnabled = false;
-    if (els.tutCatalog) els.tutCatalog.style.display = 'none';
-    if (els.tutReader) els.tutReader.hidden = true;
-    if (els.tutModeChooser) els.tutModeChooser.hidden = false;
-    if (els.tutModeTitle) els.tutModeTitle.textContent = tut.title;
-    if (els.tutModeDesc) els.tutModeDesc.textContent = `${tut.steps.length} steps · ${tut.cat}`;
+    els.tutCatalog.hidden = true;
+    els.tutModeChooser.hidden = false;
+    els.tutReader.hidden = true;
+    els.tutModeTitle.textContent = tut.title;
+    els.tutModeDesc.textContent = tut.desc;
+    tutChatClear();
+    initTutorialParticles();
   }
 
   function startTutLesson(withVoice) {
     tutTtsEnabled = withVoice;
+    els.tutModeChooser.hidden = true;
+    els.tutReader.hidden = false;
     if (els.tutModeChooser) els.tutModeChooser.hidden = true;
     if (els.tutReader) els.tutReader.hidden = false;
     tutTtsUpdateBtn();
@@ -2429,10 +3001,10 @@
     tutTtsStop();
     if (els.tutReader) els.tutReader.hidden = true;
     if (els.tutModeChooser) els.tutModeChooser.hidden = true;
-    if (els.tutCatalog) els.tutCatalog.style.display = '';
+    if (els.tutCatalog) els.tutCatalog.hidden = false;
     activeTutId = null;
     activeTutStep = 0;
-    renderTutCatalog();
+    renderTutorialCatalog();
   }
 
   function renderTutStep() {
@@ -2440,8 +3012,13 @@
     if (!tut) return;
     const step = tut.steps[activeTutStep];
     if (!step) return;
-    if (els.tutLessonTitle) els.tutLessonTitle.textContent = tut.title;
-    if (els.tutStepLabel) els.tutStepLabel.textContent = `Step ${activeTutStep + 1} / ${tut.steps.length}`;
+    if (els.tutTitle) els.tutTitle.textContent = tut.title;
+    if (els.tutLessonCat) els.tutLessonCat.textContent = tut.cat;
+    if (els.tutProgressText) els.tutProgressText.textContent = `Step ${activeTutStep + 1} of ${tut.steps.length}`;
+    if (els.tutProgressFill) {
+      const progress = ((activeTutStep + 1) / tut.steps.length) * 100;
+      els.tutProgressFill.style.width = progress + '%';
+    }
     if (els.tutBody) {
       els.tutBody.style.animation = 'none';
       void els.tutBody.offsetHeight;
@@ -2449,7 +3026,7 @@
       els.tutBody.innerHTML = `<h3>${step.title}</h3>${step.html}`;
     }
     if (els.tutPrev) els.tutPrev.disabled = activeTutStep === 0;
-    if (els.tutNext) els.tutNext.textContent = activeTutStep === tut.steps.length - 1 ? 'Finish \u2713' : 'Next \u2192';
+    if (els.tutNext) els.tutNext.textContent = activeTutStep === tut.steps.length - 1 ? 'Finish ✓' : 'Next →';
     if (tutTtsEnabled) tutTtsSpeak(step.title + '. ' + step.html);
   }
 
@@ -2459,6 +3036,20 @@
     if (!tut) return;
     if (delta > 0 && activeTutStep === tut.steps.length - 1) {
       setTutCompleted(activeTutId);
+      showAchievement('Lesson Complete!', `You've finished "${tut.title}"`, '🎓');
+      
+      // Check for milestone achievements
+      const completedCount = getTutCompleted().size;
+      if (completedCount === 1) {
+        showAchievement('First Steps!', 'Completed your first tutorial', '🌟');
+      } else if (completedCount === 5) {
+        showAchievement('Learning Streak!', 'Completed 5 tutorials', '🔥');
+      } else if (completedCount === 10) {
+        showAchievement('Knowledge Seeker!', 'Completed 10 tutorials', '💎');
+      } else if (completedCount === 25) {
+        showAchievement('Master Student!', 'Completed 25 tutorials', '👑');
+      }
+      
       closeTutLesson();
       return;
     }
@@ -2474,6 +3065,53 @@
     qsAll('[data-jump]').forEach((b) => {
       b.addEventListener('click', () => setActiveTab(b.dataset.jump));
     });
+
+    if (els.openSettingsBtn) els.openSettingsBtn.addEventListener('click', () => setActiveTab('settings'));
+
+    if (els.authCountry) {
+      els.authCountry.addEventListener('change', () => {
+        state.profile.country = String(els.authCountry.value || 'US').toUpperCase();
+        renderCountryLegal();
+      });
+    }
+
+    if (els.settingsCountry) {
+      els.settingsCountry.addEventListener('change', () => {
+        state.profile.country = String(els.settingsCountry.value || 'US').toUpperCase();
+        renderCountryLegal();
+      });
+    }
+
+    if (els.authLanguage) {
+      els.authLanguage.addEventListener('change', () => {
+        if (els.authLanguage.value !== 'custom' && els.authLanguageCustom) els.authLanguageCustom.value = '';
+      });
+    }
+
+    if (els.settingsLanguage) {
+      els.settingsLanguage.addEventListener('change', () => {
+        if (els.settingsLanguage.value !== 'custom' && els.settingsLanguageCustom) els.settingsLanguageCustom.value = '';
+      });
+    }
+
+    if (els.authSignInBtn) els.authSignInBtn.addEventListener('click', signInProfile);
+    if (els.authSignInGoogleBtn) els.authSignInGoogleBtn.addEventListener('click', () => socialSignUp('google'));
+    if (els.authSignInAppleBtn) els.authSignInAppleBtn.addEventListener('click', () => socialSignUp('apple'));
+    if (els.authGoogleBtn) els.authGoogleBtn.addEventListener('click', () => socialSignUp('google'));
+    if (els.authAppleBtn) els.authAppleBtn.addEventListener('click', () => socialSignUp('apple'));
+    if (els.authSignUpBtn) els.authSignUpBtn.addEventListener('click', signUpProfile);
+    if (els.authSignOutBtn) els.authSignOutBtn.addEventListener('click', signOutProfile);
+    if (els.saveSettingsBtn) els.saveSettingsBtn.addEventListener('click', applySettingsProfile);
+    if (els.authUseStripeBtn) els.authUseStripeBtn.addEventListener('click', startSubscriptionCheckout);
+    if (els.portfolioConnectWallet) els.portfolioConnectWallet.addEventListener('click', connectWalletMock);
+    if (els.portfolioSubscribe) els.portfolioSubscribe.addEventListener('click', startSubscriptionCheckout);
+    if (els.checkYoutubeLinksBtn) els.checkYoutubeLinksBtn.addEventListener('click', validateYouTubeLinks);
+    if (els.openYoutubePlaylistBtn) {
+      els.openYoutubePlaylistBtn.addEventListener('click', () => {
+        const first = findTutorialYouTubeLinks()[0];
+        if (first?.url) window.open(first.url, '_blank', 'noopener,noreferrer');
+      });
+    }
 
     els.email.addEventListener('input', () => {
       state.user.email = String(els.email.value || '').trim();
@@ -2631,14 +3269,19 @@
       }
     });
 
-    // Learn library events
-    if (els.tutCat) els.tutCat.addEventListener('change', renderTutCatalog);
-    if (els.tutSearch) els.tutSearch.addEventListener('input', renderTutCatalog);
-    if (els.tutBack) els.tutBack.addEventListener('click', closeTutLesson);
+    // Tutorial events
+    if (els.tutCat) els.tutCat.addEventListener('change', () => {
+      tutState.cat = els.tutCat.value;
+      renderTutorialCatalog();
+    });
+    if (els.tutSearch) els.tutSearch.addEventListener('input', () => {
+      tutState.search = els.tutSearch.value;
+      renderTutorialCatalog();
+    });
     if (els.tutPrev) els.tutPrev.addEventListener('click', () => tutStepNav(-1));
     if (els.tutNext) els.tutNext.addEventListener('click', () => tutStepNav(1));
-    if (els.tutModeRead) els.tutModeRead.addEventListener('click', () => startTutLesson(false));
-    if (els.tutModeAI) els.tutModeAI.addEventListener('click', () => startTutLesson(true));
+    if (els.tutModeQuick) els.tutModeQuick.addEventListener('click', () => startTutLesson(false));
+    if (els.tutModeDeep) els.tutModeDeep.addEventListener('click', () => startTutLesson(true));
     if (els.tutTtsToggle) els.tutTtsToggle.addEventListener('click', () => {
       tutTtsEnabled = !tutTtsEnabled;
       tutTtsUpdateBtn();
@@ -2656,6 +3299,7 @@
       els.tutChatInput.value = '';
       tutAIAnswer(q);
     });
+    if (els.tutAiSettings) els.tutAiSettings.addEventListener('click', openTutorialAISettings);
     if (els.tutChatInput) els.tutChatInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -2816,6 +3460,9 @@
     document.title = 'Juzzy: wireUi START';
     console.log('[BOOT] wireUi() called');
     setActiveTab('oracle');
+    loadProfile();
+    populateCountryOptions();
+    populateLanguageOptions();
     els.fuelValue.textContent = String(els.fuel.value);
     setStatus('Idle');
     appendTerminal('INFO', 'Dashboard loaded.');
@@ -2858,11 +3505,14 @@
     setSimpleMode(localStorage.getItem('pos_simple_mode') === '1');
 
     setAutoUi();
+    renderProfileUi();
+    renderPortfolio();
+    validateYouTubeLinks();
 
     safe('seedReports', () => seedReports());
     safe('resetReportsRender', () => resetReportsRender());
     safe('initTutCategoryOptions', () => initTutCategoryOptions());
-    safe('renderTutCatalog', () => renderTutCatalog());
+    safe('renderTutorialCatalog', () => renderTutorialCatalog());
     safe('fetchLeaders', () => fetchLeaders());
 
     safe('handleStripeReturn', () => handleStripeReturn());
@@ -2872,6 +3522,9 @@
       initOrResizeChart();
       refreshChart();
     }
+
+    // Set home as default tab for educational focus
+    setActiveTab('home');
 
     window.setInterval(heartbeatTick, HEARTBEAT_MS);
   }

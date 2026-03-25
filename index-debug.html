@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juzzy Debug</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="home-styles.css" />
+  </head>
+  <body>
+    <div id="debug-console" style="position:fixed;top:0;left:0;right:0;background:red;color:white;padding:10px;font-family:monospace;z-index:99999;display:none;"></div>
+    
+    <script>
+      // Debug console
+      const debugConsole = document.getElementById('debug-console');
+      function debug(msg) {
+        console.log(msg);
+        debugConsole.textContent += msg + '\n';
+        debugConsole.style.display = 'block';
+      }
+      
+      debug('Starting debug...');
+      
+      // Check CSS loading
+      window.addEventListener('load', function() {
+        debug('Page loaded');
+        
+        // Check if styles applied
+        const bodyStyle = window.getComputedStyle(document.body);
+        debug('Body background: ' + bodyStyle.background);
+        
+        // Check elements
+        const app = document.querySelector('.app');
+        debug('App element found: ' + !!app);
+      });
+      
+      // Catch all errors
+      window.addEventListener('error', function(e) {
+        debug('ERROR: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
+      });
+    </script>
+    
+    <div class="app">
+      <h1 style="color: var(--text);">Debug Version</h1>
+      <div class="card">
+        <p>If you see this styled, CSS is working.</p>
+      </div>
+    </div>
+  </body>
+</html>

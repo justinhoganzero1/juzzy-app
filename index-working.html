@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juzzy Academy</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="home-styles.css" />
+    <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <div class="brand-title">Juzzy</div>
+            <div class="brand-subtitle">Learn Crypto</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <input id="email" class="input input-compact" placeholder="Email" />
+          <button class="btn primary">Subscribe</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <nav class="tabs" aria-label="Primary">
+          <button class="tab active" data-tab="home">Home</button>
+          <button class="tab" data-tab="tutorial">Tutorial</button>
+          <button class="tab" data-tab="leaders">Leaders</button>
+          <button class="tab" data-tab="charts">Charts</button>
+        </nav>
+
+        <section class="panel active" id="tab-home" role="region" aria-label="Home">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Welcome to Juzzy Academy</div>
+              <div class="muted">Master cryptocurrency with interactive tutorials and AI-powered learning.</div>
+            </div>
+            <div class="pill">Students: <span id="studentCount">2,847</span></div>
+          </div>
+
+          <div class="hero-section">
+            <div class="hero-content">
+              <div class="hero-title">
+                <span class="gradient-text">Learn Crypto</span>
+                <br>Like Never Before
+              </div>
+              <div class="hero-subtitle">50+ Interactive Lessons • AI Tutor • Real Examples</div>
+              <button class="btn btn-hero primary" onclick="document.querySelector('[data-tab=\"tutorial\"]').click()">
+                <span style="font-size:1.2em">🚀</span> Start Learning
+              </button>
+            </div>
+            <div class="hero-visual">
+              <div class="floating-cards">
+                <div class="floating-card" style="--delay:0s">₿ Bitcoin</div>
+                <div class="floating-card" style="--delay:1s">⚡ DeFi</div>
+                <div class="floating-card" style="--delay:2s">🔐 Wallets</div>
+                <div class="floating-card" style="--delay:3s">📊 Trading</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🎓</div>
+              <div class="feature-title">Expert Tutorials</div>
+              <div class="feature-desc">From basics to advanced strategies with real-world examples</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🤖</div>
+              <div class="feature-title">AI Tutor</div>
+              <div class="feature-desc">Get instant answers to your questions from our AI assistant</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🏆</div>
+              <div class="feature-title">Achievements</div>
+              <div class="feature-desc">Earn badges as you progress and unlock new content</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📈</div>
+              <div class="feature-title">Practice Trading</div>
+              <div class="feature-desc">Test your skills with paper trading in a risk-free environment</div>
+            </div>
+          </div>
+
+          <div class="stats-section">
+            <div class="stat-item">
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Lessons</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">10</div>
+              <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">24/7</div>
+              <div class="stat-label">AI Support</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Free</div>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button class="btn" onclick="document.querySelector('[data-tab=\"tutorial\"]').click()">
+              📚 Browse Tutorials
+            </button>
+            <button class="btn" onclick="document.querySelector('[data-tab=\"leaders\"]').click()">
+              📊 Live Markets
+            </button>
+            <button class="btn" onclick="document.querySelector('[data-tab=\"charts\"]').click()">
+              📈 Price Charts
+            </button>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-tutorial" role="region" aria-label="Tutorial">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Tutorial</div>
+              <div class="muted">50+ lessons on crypto, markets, strategies and using Juzzy.</div>
+            </div>
+          </div>
+          <div id="tutCatalog" class="tut-catalog"></div>
+        </section>
+
+        <section class="panel" id="tab-leaders" role="region" aria-label="Leaders">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Market Leaders</div>
+              <div class="muted">Public market data feed (refreshes on heartbeat).</div>
+            </div>
+          </div>
+          <div class="leaders">
+            <div class="leaders-head">
+              <div>Asset</div>
+              <div class="right">Price</div>
+              <div class="right">24h</div>
+            </div>
+            <div id="leadersList" class="leaders-list"></div>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-charts" role="region" aria-label="Charts">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Charts</div>
+              <div class="muted">Candles + indicators. Select an asset and timeframe.</div>
+            </div>
+          </div>
+          <div class="charts-grid">
+            <div class="card">
+              <div class="card-title">Price</div>
+              <div id="chart" class="chart"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="tutorials.js"></script>
+    <script src="app-tutorials.js"></script>
+    <script>
+      console.log('Custom script loaded');
+      document.title = 'Juzzy Academy - Working Version';
+      
+      // Basic functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded');
+        
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.panel');
+        
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const tabName = tab.dataset.tab;
+            console.log('Tab clicked:', tabName);
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            
+            tab.classList.add('active');
+            const panel = document.getElementById(`tab-${tabName}`);
+            if (panel) panel.classList.add('active');
+            
+            // Load tutorials if tutorial tab
+            if (tabName === 'tutorial') {
+              loadTutorials();
+            }
+          });
+        });
+        
+        // Load tutorials
+        function loadTutorials() {
+          const catalog = document.getElementById('tutCatalog');
+          if (!catalog) return;
+          
+          const tutorials = window.JUZZY_TUTORIALS || [];
+          catalog.innerHTML = tutorials.map(t => `
+            <div class="tut-card" style="background: var(--panel); border: 1px solid var(--stroke); padding: 20px; border-radius: var(--radius); margin: 10px 0; cursor: pointer;">
+              <div style="font-size: 1.2em; font-weight: bold; color: var(--text);">${t.title}</div>
+              <div style="color: var(--muted); margin: 5px 0;">${t.desc}</div>
+              <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                <span style="color: var(--blue);">${t.cat}</span>
+                <span style="color: var(--muted);">${t.steps.length} steps</span>
+              </div>
+            </div>
+          `).join('');
+        }
+        
+        console.log('Initialization complete');
+      });
+    </script>
+  </body>
+</html>

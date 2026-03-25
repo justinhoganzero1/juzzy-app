@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Page</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      padding: 20px;
+    }
+    .test-box {
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      padding: 20px;
+      border-radius: var(--radius);
+      color: var(--text);
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="color: var(--text);">CSS Test</h1>
+  <div class="test-box">
+    If you can see this with dark background, CSS is working!
+  </div>
+  <script>
+    console.log('Test page loaded');
+    document.title = 'Test Page - Loaded';
+  </script>
+</body>
+</html>

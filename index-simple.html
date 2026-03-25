@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juzzy Academy</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="home-styles.css" />
+    <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <div class="brand-title">Juzzy</div>
+            <div class="brand-subtitle">Learn Crypto</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <input id="email" class="input input-compact" placeholder="Email" />
+          <button class="btn primary">Subscribe</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <nav class="tabs" aria-label="Primary">
+          <button class="tab active" data-tab="home">Home</button>
+          <button class="tab" data-tab="tutorial">Tutorial</button>
+          <button class="tab" data-tab="charts">Charts</button>
+        </nav>
+
+        <section class="panel active" id="tab-home" role="region" aria-label="Home">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Welcome to Juzzy Academy</div>
+              <div class="muted">Master cryptocurrency with interactive tutorials.</div>
+            </div>
+          </div>
+
+          <div class="hero-section">
+            <div class="hero-content">
+              <div class="hero-title">
+                <span class="gradient-text">Learn Crypto</span>
+                <br>Like Never Before
+              </div>
+              <div class="hero-subtitle">50+ Interactive Lessons • AI Tutor • Real Examples</div>
+              <button class="btn btn-hero primary" onclick="document.querySelector('[data-tab=\"tutorial\"]').click()">
+                <span style="font-size:1.2em">🚀</span> Start Learning
+              </button>
+            </div>
+            <div class="hero-visual">
+              <div class="floating-cards">
+                <div class="floating-card" style="--delay:0s">₿ Bitcoin</div>
+                <div class="floating-card" style="--delay:1s">⚡ DeFi</div>
+                <div class="floating-card" style="--delay:2s">🔐 Wallets</div>
+                <div class="floating-card" style="--delay:3s">📊 Trading</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🎓</div>
+              <div class="feature-title">Expert Tutorials</div>
+              <div class="feature-desc">From basics to advanced strategies</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🤖</div>
+              <div class="feature-title">AI Tutor</div>
+              <div class="feature-desc">Get instant answers to your questions</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🏆</div>
+              <div class="feature-title">Achievements</div>
+              <div class="feature-desc">Earn badges as you progress</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📈</div>
+              <div class="feature-title">Practice Trading</div>
+              <div class="feature-desc">Test your skills risk-free</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-tutorial" role="region" aria-label="Tutorial">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Tutorials</div>
+              <div class="muted">Choose a lesson to start learning</div>
+            </div>
+          </div>
+          <div style="padding: 40px; text-align: center; color: var(--muted);">
+            <h2>Coming Soon</h2>
+            <p>Tutorials will be available here.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="tab-charts" role="region" aria-label="Charts">
+          <div class="panel-header">
+            <div>
+              <div class="h1">Charts</div>
+              <div class="muted">Market data visualization</div>
+            </div>
+          </div>
+          <div style="padding: 40px; text-align: center; color: var(--muted);">
+            <h2>Coming Soon</h2>
+            <p>Charts will be available here.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="main-simple.js"></script>
+  </body>
+</html>
