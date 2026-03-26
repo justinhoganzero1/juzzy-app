@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juzzy Global - AI-Powered Crypto Education University</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+      color: #eaf0ff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 14, 39, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #00e5ff, #ff5f6d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #eaf0ff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #00e5ff;
+    }
+
+    .cta-btn {
+      background: linear-gradient(135deg, #00e5ff, #0099ff);
+      color: #0a0e27;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 229, 255, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 229, 255, 0.15), transparent);
+      border-radius: 50%;
+      top: -250px;
+      right: -250px;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    .hero-content {
+      max-width: 900px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #00e5ff, #ff5f6d, #ffc371);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: rgba(234, 240, 255, 0.8);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .stat-item {
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #00e5ff;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: rgba(234, 240, 255, 0.7);
+      margin-top: 0.5rem;
+    }
+
+    /* Features Section */
+    .section {
+      padding: 6rem 5%;
+      position: relative;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 3rem;
+      background: linear-gradient(135deg, #00e5ff, #ff5f6d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2.5rem;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 229, 255, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #00e5ff;
+    }
+
+    .feature-desc {
+      color: rgba(234, 240, 255, 0.8);
+    }
+
+    /* AI Faculty Section */
+    .faculty-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .professor-card {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(255, 95, 109, 0.1));
+      padding: 2rem;
+      border-radius: 20px;
+      border: 2px solid rgba(0, 229, 255, 0.3);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .professor-card:hover {
+      transform: scale(1.05);
+    }
+
+    .professor-avatar {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, #00e5ff, #ff5f6d);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .professor-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .professor-title {
+      color: rgba(234, 240, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    /* Pricing Section */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      border: 2px solid rgba(0, 229, 255, 0.2);
+      text-align: center;
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: #00e5ff;
+      transform: scale(1.05);
+      background: rgba(0, 229, 255, 0.1);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #00e5ff, #0099ff);
+      color: #0a0e27;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .pricing-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .pricing-price {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #00e5ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-period {
+      color: rgba(234, 240, 255, 0.6);
+      margin-bottom: 2rem;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .pricing-features li {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .pricing-features li:before {
+      content: '✓';
+      color: #00e5ff;
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(10, 14, 39, 0.95);
+      padding: 4rem 5% 2rem;
+      border-top: 1px solid rgba(0, 229, 255, 0.2);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+
+    .footer-section h3 {
+      color: #00e5ff;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: rgba(234, 240, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: #00e5ff;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(234, 240, 255, 0.5);
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">JUZZY</div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#faculty">AI Faculty</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <a href="index.html" class="cta-btn">Launch App</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="floating">The World's First AI-Driven Crypto University</h1>
+      <p>Learn cryptocurrency, blockchain, and Web3 from 5 specialized AI professors in an immersive, adaptive learning environment powered by cutting-edge artificial intelligence.</p>
+      <a href="index.html" class="cta-btn" style="display: inline-block; margin-top: 1rem;">Start Learning Free</a>
+      
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Course Modules</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">5,824</div>
+          <div class="stat-label">AI Community Members</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">5</div>
+          <div class="stat-label">AI Professors</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">AI Support</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="section">
+    <h2 class="section-title">Revolutionary AI-Powered Learning</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3 class="feature-title">Adaptive Learning AI</h3>
+        <p class="feature-desc">Our AI algorithms detect your learning style (visual, auditory, kinesthetic) and personalize every lesson to maximize retention and engagement.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🎓</div>
+        <h3 class="feature-title">5 AI Professors</h3>
+        <p class="feature-desc">Learn from specialized AI professors: Atlas (Foundations), Vega (Markets), Lyra (Creator Economy), Sol (Risk), and Nova (DeFi).</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3 class="feature-title">10 AI Lesson Tools</h3>
+        <p class="feature-desc">Every lesson includes AI-powered tools: Simplify, Deep Dive, Analogy, Quiz, Recap, Next Step, Challenge, Glossary, Reflect, and Coach.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3 class="feature-title">Simulated AI Community</h3>
+        <p class="feature-desc">Practice in a safe environment with 5,824 AI-generated community members discussing crypto, sharing insights, and creating realistic social dynamics.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-title">Live Trading Simulators</h3>
+        <p class="feature-desc">Practice trading with realistic simulators of popular platforms like Binance, Coinbase, Uniswap, and more - all AI-generated for safe learning.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3 class="feature-title">Personalized Pathways</h3>
+        <p class="feature-desc">AI creates custom learning paths based on your goals: investor, trader, developer, creator, or entrepreneur.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Faculty Section -->
+  <section id="faculty" class="section" style="background: rgba(0, 0, 0, 0.2);">
+    <h2 class="section-title">Meet Your AI Professors</h2>
+    <div class="faculty-grid">
+      <div class="professor-card">
+        <div class="professor-avatar">🗿</div>
+        <h3 class="professor-name">Professor Atlas</h3>
+        <p class="professor-title">Crypto Foundations & Token Models</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(234, 240, 255, 0.7);">Specializes in blockchain fundamentals, Bitcoin, Ethereum, and tokenomics. Perfect for beginners.</p>
+      </div>
+      
+      <div class="professor-card">
+        <div class="professor-avatar">📈</div>
+        <h3 class="professor-name">Professor Vega</h3>
+        <p class="professor-title">Markets & Chartcraft</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(234, 240, 255, 0.7);">Expert in technical analysis, trading strategies, and market psychology.</p>
+      </div>
+      
+      <div class="professor-card">
+        <div class="professor-avatar">🎨</div>
+        <h3 class="professor-name">Professor Lyra</h3>
+        <p class="professor-title">Creator Economy & Media</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(234, 240, 255, 0.7);">Teaches NFTs, content monetization, and building creator businesses in Web3.</p>
+      </div>
+      
+      <div class="professor-card">
+        <div class="professor-avatar">🛡️</div>
+        <h3 class="professor-name">Professor Sol</h3>
+        <p class="professor-title">Risk & Legitimacy</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(234, 240, 255, 0.7);">Focuses on security, scam detection, risk management, and regulatory compliance.</p>
+      </div>
+      
+      <div class="professor-card">
+        <div class="professor-avatar">⚡</div>
+        <h3 class="professor-name">Professor Nova</h3>
+        <p class="professor-title">DeFi & Builder Systems</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(234, 240, 255, 0.7);">Expert in DeFi protocols, smart contracts, and building decentralized applications.</p>
+      </div>
+      
+      <div class="professor-card">
+        <div class="professor-avatar">👨‍🎓</div>
+        <h3 class="professor-name">Dean Aurelius</h3>
+        <p class="professor-title">University Dean & Vision</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(234, 240, 255, 0.7);">Oversees your entire learning journey and provides strategic guidance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="section">
+    <h2 class="section-title">Choose Your Learning Path</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3 class="pricing-title">Free Explorer</h3>
+        <div class="pricing-price">$0</div>
+        <div class="pricing-period">Forever Free</div>
+        <ul class="pricing-features">
+          <li>15 Foundation Modules</li>
+          <li>AI Assistant Access</li>
+          <li>Community Access</li>
+          <li>Basic Trading Simulator</li>
+          <li>Progress Tracking</li>
+        </ul>
+        <a href="index.html" class="cta-btn">Start Free</a>
+      </div>
+      
+      <div class="pricing-card featured">
+        <div class="pricing-badge">MOST POPULAR</div>
+        <h3 class="pricing-title">Pro Learner</h3>
+        <div class="pricing-price">$29</div>
+        <div class="pricing-period">per month</div>
+        <ul class="pricing-features">
+          <li>All 100+ Modules</li>
+          <li>5 AI Professors</li>
+          <li>Advanced Simulators</li>
+          <li>Personalized Learning Path</li>
+          <li>Certificate of Completion</li>
+          <li>Priority Support</li>
+          <li>Live Market Data</li>
+        </ul>
+        <a href="index.html" class="cta-btn">Upgrade Now</a>
+      </div>
+      
+      <div class="pricing-card">
+        <h3 class="pricing-title">Enterprise</h3>
+        <div class="pricing-price">Custom</div>
+        <div class="pricing-period">Contact Sales</div>
+        <ul class="pricing-features">
+          <li>Everything in Pro</li>
+          <li>Team Management</li>
+          <li>Custom Modules</li>
+          <li>White-Label Option</li>
+          <li>API Access</li>
+          <li>Dedicated Support</li>
+          <li>Analytics Dashboard</li>
+        </ul>
+        <a href="mailto:enterprise@juzzy.ai" class="cta-btn">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section" style="background: rgba(0, 0, 0, 0.2);">
+    <h2 class="section-title">About Juzzy Global</h2>
+    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+      <p style="font-size: 1.2rem; margin-bottom: 2rem; line-height: 1.8;">
+        Founded in 2024, Juzzy Global is pioneering the future of education with the world's first fully AI-driven cryptocurrency university. Our mission is to democratize crypto education through adaptive AI technology, making complex blockchain concepts accessible to everyone, everywhere.
+      </p>
+      <p style="font-size: 1.1rem; color: rgba(234, 240, 255, 0.8); line-height: 1.8;">
+        With 5 specialized AI professors, 5,824 AI community members, and 100+ comprehensive modules, we've created an immersive learning environment that adapts to each student's unique learning style. Our platform combines cutting-edge AI with proven educational methodologies to deliver the most effective crypto education experience available.
+      </p>
+      <div style="margin-top: 3rem; padding: 2rem; background: rgba(255, 95, 109, 0.1); border-radius: 20px; border: 1px solid rgba(255, 95, 109, 0.3);">
+        <h3 style="color: #ff5f6d; margin-bottom: 1rem;">⚠️ Educational Disclaimer</h3>
+        <p style="font-size: 0.95rem; color: rgba(234, 240, 255, 0.7);">
+          Juzzy is an educational platform only. Nothing on this platform constitutes financial, legal, or tax advice. Cryptocurrency trading involves substantial risk of loss. All trading simulations are for educational purposes only. Always do your own research and consult with qualified professionals before making any financial decisions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Juzzy Global</h3>
+        <p style="color: rgba(234, 240, 255, 0.7); margin-top: 1rem;">
+          The world's first AI-driven crypto education university. Learn from AI professors, practice in safe simulators, and join a thriving community.
+        </p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Learn</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Launch App</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#faculty">AI Faculty</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Company</h3>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Legal</h3>
+        <ul class="footer-links">
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2024 Juzzy Global Corporation. All rights reserved.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+        Juzzy is a registered trademark. Educational platform only - not financial advice.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
